@@ -1,6 +1,6 @@
 import torch
 from torch_geometric.data import DataLoader
-from torch_geometric.nn import GCNConv, global_mean_pool
+from torch_geometric.nn import GCNConv, global_mean_pool, GATConv, GATv2Conv, global_max_pool, global_sort_pool
 import torch.nn.functional as F
 from torch.nn import L1Loss
 import numpy as np
@@ -9,18 +9,19 @@ import numpy as np
 class GCN(torch.nn.Module):
     def __init__(self, num_node_features):
         super(GCN, self).__init__()
-        self.conv1 = GCNConv(num_node_features, 16)
-        self.conv2 = GCNConv(16, 64)
-        self.lin = torch.nn.Linear(64, 1)
+        self.conv1 = GATv2Conv(num_node_features, 16)
+        self.conv2 = GATv2Conv(16, 8)
+        self.lin = torch.nn.Linear(8, 1)
 
     def forward(self, data):
         x, edge_index, batch = data.x, data.edge_index, data.batch
 
         x = self.conv1(x, edge_index)
         x = F.relu(x)
-        x = F.dropout(x, training=self.training)
 
         x = self.conv2(x, edge_index)
+        x = F.relu(x)
+        x = F.dropout(x, 0.1)
         x = global_mean_pool(x, batch)
 
         x = self.lin(x)
@@ -40,7 +41,7 @@ class GCN(torch.nn.Module):
 
             val_loss, val_mae_loss = self.validate(val_loader, criterion)  # Предполагая, что val_loader определён
             print(
-                f'Epoch {epoch + 1}, MSE Loss: {loss.item()}, Val MAE Loss: {val_mae_loss}, MAE Loss: {mae_loss.item()}, Val MSE Loss: {val_loss}')
+                f'Epoch {epoch + 1}, MSE Loss: {loss.item()}, Val MSE Loss: {val_loss}, MAE Loss: {mae_loss.item()}, Val MAE Loss: {val_mae_loss}')
 
     def validate(self, val_loader, criterion):
         self.eval()

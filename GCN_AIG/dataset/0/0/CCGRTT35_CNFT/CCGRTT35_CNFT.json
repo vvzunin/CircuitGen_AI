@@ -1,0 +1,37 @@
+{
+	"name": "CCGRTT35_CNFT",
+	"numInputs": "6",
+	"numOutputs": "4",
+	"maxLevel": "42",
+	"numEdges": "464",
+	"reliability": "0.64062500000000000000",
+	"size": "0.00000000000000000000",
+	"area": "0.00000000000000000000",
+	"longest_path": "0",
+	"gates": "0",
+	"sensitivity_factor": "0.00000000000000000000",
+	"sinsitivity_factor_percent": "0.00000000000000000000",
+	"sensitive_area": "0.00000000000000000000",
+	"sensitive_area_percent": "0.00000000000000000000",
+	"hash_code": "",
+	"numElementsOfEachType": {
+		"and": 119,
+		"input": 6,
+		"not": 6,
+		"or": 108,
+		"output": 4
+	},
+	"numEdgesOfEachType": {
+		"and-and": 115,
+		"and-or": 111,
+		"input-and": 62,
+		"input-not": 6,
+		"not-and": 61,
+		"or-or": 105,
+		"or-output": 4
+	},
+	"abcStats": {
+		"error": "Something went wrong during files parsing in AbcUtils: ;sh: 1: abc: not found;",
+		"fileRead": "false"
+	}
+}

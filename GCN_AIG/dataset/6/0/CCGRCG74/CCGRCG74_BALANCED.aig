@@ -1,0 +1,39 @@
+// Benchmark "CCGRCG74" written by ABC on Tue Feb 13 20:51:44 2024
+
+module CCGRCG74 ( 
+    x0, x1, x2,
+    f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16,
+    f17, f18, f19, f20  );
+  input  x0, x1, x2;
+  output f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15,
+    f16, f17, f18, f19, f20;
+  wire new_n24_, new_n26_, new_n27_, new_n28_, new_n29_, new_n30_;
+  assign new_n24_ = ~x1 & x2;
+  assign f1 = x0 | ~new_n24_;
+  assign new_n26_ = x1 & ~x2;
+  assign new_n27_ = x0 & ~new_n24_;
+  assign new_n28_ = ~new_n26_ & new_n27_;
+  assign new_n29_ = ~x2 & new_n28_;
+  assign new_n30_ = x2 & ~new_n28_;
+  assign f2 = new_n29_ | new_n30_;
+  assign f3 = x0 | x1;
+  assign f4 = x2 & f1;
+  assign f5 = f4;
+  assign f6 = f3;
+  assign f7 = x0;
+  assign f8 = f1;
+  assign f9 = x0;
+  assign f10 = f1;
+  assign f11 = f1;
+  assign f12 = f1;
+  assign f13 = f4;
+  assign f14 = f1;
+  assign f15 = f3;
+  assign f16 = x0;
+  assign f17 = f3;
+  assign f18 = f2;
+  assign f19 = x0;
+  assign f20 = f1;
+endmodule
+
+

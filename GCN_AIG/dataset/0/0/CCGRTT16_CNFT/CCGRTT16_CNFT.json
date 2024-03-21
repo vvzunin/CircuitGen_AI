@@ -1,0 +1,38 @@
+{
+	"name": "CCGRTT16_CNFT",
+	"numInputs": "3",
+	"numOutputs": "9",
+	"maxLevel": "10",
+	"numEdges": "82",
+	"reliability": "0.50000000000000000000",
+	"size": "0.00000000000000000000",
+	"area": "0.00000000000000000000",
+	"longest_path": "0",
+	"gates": "0",
+	"sensitivity_factor": "0.00000000000000000000",
+	"sinsitivity_factor_percent": "0.00000000000000000000",
+	"sensitive_area": "0.00000000000000000000",
+	"sensitive_area_percent": "0.00000000000000000000",
+	"hash_code": "",
+	"numElementsOfEachType": {
+		"and": 12,
+		"input": 3,
+		"not": 3,
+		"or": 23,
+		"output": 9
+	},
+	"numEdgesOfEachType": {
+		"and-and": 8,
+		"and-or": 29,
+		"and-output": 1,
+		"input-and": 8,
+		"input-not": 3,
+		"not-and": 8,
+		"or-or": 17,
+		"or-output": 8
+	},
+	"abcStats": {
+		"error": "Something went wrong during files parsing in AbcUtils: ;sh: 1: abc: not found;",
+		"fileRead": "false"
+	}
+}

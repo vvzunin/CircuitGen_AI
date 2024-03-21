@@ -1,0 +1,37 @@
+// Benchmark "CCGRCG31" written by ABC on Tue Feb 13 20:51:33 2024
+
+module CCGRCG31 ( 
+    x0, x1,
+    f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16,
+    f17  );
+  input  x0, x1;
+  output f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15,
+    f16, f17;
+  wire new_n21_, new_n22_, new_n23_, new_n27_, new_n28_, new_n34_, new_n36_;
+  assign new_n21_ = ~x0 & ~x1;
+  assign new_n22_ = x0 & x1;
+  assign new_n23_ = ~new_n21_ & ~new_n22_;
+  assign f2 = ~new_n21_ | ~new_n22_;
+  assign f10 = ~new_n23_ & f2;
+  assign f4 = ~new_n22_ | f10;
+  assign new_n27_ = new_n23_ & f4;
+  assign new_n28_ = ~new_n23_ & ~f4;
+  assign f1 = new_n27_ | new_n28_;
+  assign f5 = x0 & ~x1;
+  assign f3 = new_n23_ & ~f5;
+  assign f6 = ~new_n22_ & ~f10;
+  assign f7 = new_n22_ & f3;
+  assign new_n34_ = f4 & ~f3;
+  assign f13 = ~f7 & ~new_n34_;
+  assign new_n36_ = new_n22_ & f10;
+  assign f14 = f6 | new_n36_;
+  assign f16 = new_n21_ | ~f5;
+  assign f17 = ~new_n23_ | ~f5;
+  assign f8 = 1'b0;
+  assign f12 = 1'b0;
+  assign f15 = 1'b0;
+  assign f9 = f3;
+  assign f11 = f10;
+endmodule
+
+

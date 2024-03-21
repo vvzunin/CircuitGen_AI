@@ -1,0 +1,19 @@
+// Benchmark "CCGRCG42" written by ABC on Tue Feb 13 20:51:36 2024
+
+module CCGRCG42 ( 
+    x0, x1, x2,
+    f1, f2, f3, f4  );
+  input  x0, x1, x2;
+  output f1, f2, f3, f4;
+  wire new_n8_, new_n11_, new_n12_, new_n14_;
+  assign new_n8_ = ~x1 & ~x2;
+  assign f1 = x0 & ~new_n8_;
+  assign f2 = ~x1 | ~x2;
+  assign new_n11_ = x0 & new_n8_;
+  assign new_n12_ = ~x0 & ~new_n8_;
+  assign f3 = ~new_n11_ & ~new_n12_;
+  assign new_n14_ = ~x0 & ~f2;
+  assign f4 = new_n11_ | new_n14_;
+endmodule
+
+

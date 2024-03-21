@@ -1,0 +1,8 @@
+# Benchmark "CCGRCG20" written by ABC on Tue Feb 13 19:54:08 2024
+INPUT(x0)
+INPUT(x1)
+INPUT(x2)
+OUTPUT(f1)
+new_d30_    = LUT 0x1 ( x1, x2 )
+new_d49_    = LUT 0x2 ( new_d30_ )
+f1          = LUT 0x2 ( new_d49_ )

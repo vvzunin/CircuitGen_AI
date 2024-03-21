@@ -1,6 +1,6 @@
 import networkx as nx
 import re
-import numpy as  np
+import numpy as np
 import os
 from node2vec import Node2Vec
 from gensim.models import KeyedVectors
@@ -114,7 +114,7 @@ class Aig_graph:
                     self.net_graph.add_edge(i, j, type='not')
 
     def create_node_vectors(self):
-        node2vec = Node2Vec(self.net_graph, dimensions=32, walk_length=10, num_walks=10, workers=2)
+        node2vec = Node2Vec(self.net_graph, dimensions=32, walk_length=5, num_walks=5, workers=2)
         model = node2vec.fit(window=10, min_count=1, batch_words=4)
         self.node_vectors = model.wv
 
@@ -150,9 +150,4 @@ class Aig_graph:
             self.node_vectors.vectors = new_vectors
             self.node_vectors.key_to_index = {key: i for i, key in enumerate(all_keys)}
             self.node_vectors.index_to_key = all_keys
-
-
-
-
-
 

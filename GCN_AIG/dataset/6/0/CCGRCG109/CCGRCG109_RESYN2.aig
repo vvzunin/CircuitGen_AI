@@ -1,0 +1,49 @@
+// Benchmark "CCGRCG109" written by ABC on Tue Feb 13 20:51:53 2024
+
+module CCGRCG109 ( 
+    x0, x1, x2, x3,
+    f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16,
+    f17, f18  );
+  input  x0, x1, x2, x3;
+  output f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15,
+    f16, f17, f18;
+  wire new_n23_, new_n24_, new_n25_, new_n26_, new_n27_, new_n29_, new_n30_,
+    new_n31_, new_n32_, new_n34_, new_n37_, new_n44_, new_n45_, new_n46_,
+    new_n47_, new_n48_;
+  assign new_n23_ = x0 & x2;
+  assign new_n24_ = ~x0 & ~x2;
+  assign new_n25_ = x1 & ~new_n24_;
+  assign new_n26_ = ~x0 & x3;
+  assign new_n27_ = ~new_n25_ & ~new_n26_;
+  assign f11 = ~new_n23_ & new_n27_;
+  assign new_n29_ = ~new_n23_ & ~new_n24_;
+  assign new_n30_ = x2 & ~x3;
+  assign new_n31_ = x1 & ~new_n30_;
+  assign new_n32_ = ~x1 & new_n30_;
+  assign f17 = new_n31_ | new_n32_;
+  assign new_n34_ = ~new_n29_ & f17;
+  assign f2 = f11 | ~new_n34_;
+  assign f5 = ~x2 | ~x3;
+  assign new_n37_ = ~x2 & ~x3;
+  assign f12 = ~f5 | new_n37_;
+  assign f3 = f11 | f12;
+  assign f14 = ~new_n25_ & new_n37_;
+  assign f6 = f11 & ~new_n34_;
+  assign f7 = ~f2 | f6;
+  assign f15 = new_n34_ & ~f12;
+  assign new_n44_ = ~x0 & x2;
+  assign new_n45_ = x1 & x3;
+  assign new_n46_ = ~new_n44_ & new_n45_;
+  assign new_n47_ = new_n44_ & ~new_n45_;
+  assign new_n48_ = ~new_n46_ & ~new_n47_;
+  assign f13 = ~new_n37_ & new_n48_;
+  assign f18 = ~f3 | f14;
+  assign f1 = ~f11;
+  assign f4 = ~f14;
+  assign f8 = ~x2;
+  assign f10 = ~f15;
+  assign f9 = f6;
+  assign f16 = f2;
+endmodule
+
+

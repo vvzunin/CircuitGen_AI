@@ -1,0 +1,25 @@
+// Benchmark "CCGRCG38" written by ABC on Tue Feb 13 19:54:12 2024
+
+module CCGRCG38 ( 
+    x0, x1, x2,
+    f1, f2, f3, f4, f5, f6, f7, f8, f9, f10  );
+  input  x0, x1, x2;
+  output f1, f2, f3, f4, f5, f6, f7, f8, f9, f10;
+  wire new_n16_, new_n17_, new_n18_, new_n22_;
+  assign f7 = ~x0 | ~x1;
+  assign new_n16_ = ~x0 & ~x1;
+  assign new_n17_ = x0 & x2;
+  assign new_n18_ = ~new_n16_ & ~new_n17_;
+  assign f4 = ~f7 & new_n18_;
+  assign f1 = x0 & f4;
+  assign f5 = ~x1 & ~x2;
+  assign new_n22_ = f7 & ~new_n18_;
+  assign f6 = f4 | new_n22_;
+  assign f9 = ~x0 & ~f5;
+  assign f2 = 1'b1;
+  assign f3 = x0;
+  assign f8 = f7;
+  assign f10 = f7;
+endmodule
+
+

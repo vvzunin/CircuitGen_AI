@@ -1,0 +1,50 @@
+module CCGRCG157( x0, x1, x2, x3, x4, x5, f1, f2, f3, f4 );
+
+	input x0, x1, x2, x3, x4, x5;
+	output f1, f2, f3, f4;
+
+	wire d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26, d27, d28, d29, d30, d31, d32, d33, d34, d35, d36, d37, d38;
+
+	xnor (d1, x0, x2);
+	and (d2, x2, x3);
+	xor (d3, x1, x5);
+	xor (d4, x0, x3);
+	xor (d5, x1, x4);
+	and (d6, x0, x2);
+	xor (d7, x1, x5);
+	not (d8, x0);
+	buf (d9, x1);
+	not (d10, x1);
+	xor (d11, x0, x3);
+	not (d12, x3);
+	and (d13, x3, x4);
+	and (d14, x0, x5);
+	nand (d15, x2);
+	nand (d16, x2, x4);
+	xnor (d17, x0, x4);
+	xnor (d18, x2, x3);
+	not (d19, x2);
+	buf (d20, x4);
+	buf (d21, x3);
+	nor (d22, x2, x3);
+	nor (d23, x0);
+	nor (d24, x3, x4);
+	or (d25, x0, x2);
+	or (d26, x3, x4);
+	and (d27, x0, x3);
+	xor (d28, x0, x4);
+	and (d29, x1, x5);
+	not (d30, x5);
+	nor (d31, x1, x3);
+	and (d32, x0);
+	xor (d33, x2);
+	xnor (d34, x2, x4);
+	or (d35, x0, x1);
+	xnor (d36, x1);
+	nand (d37, x0, x3);
+	xor (d38, x0, x1);
+	assign f1 = d32;
+	assign f2 = d35;
+	assign f3 = d21;
+	assign f4 = d30;
+endmodule

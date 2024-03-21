@@ -1,0 +1,52 @@
+module CCGRCG147( x0, x1, x2, x3, x4, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16, f17, f18 );
+
+	input x0, x1, x2, x3, x4;
+	output f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15, f16, f17, f18;
+
+	wire d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17, d18, d19, d20, d21, d22, d23, d24, d25, d26;
+
+	nand (d1, x2, x3);
+	xor (d2, x0, x2);
+	nand (d3, x2, x4);
+	nand (d4, x0);
+	buf (d5, x4);
+	xnor (d6, x2, x3);
+	xor (d7, x1, x2);
+	and (d8, x0, x2);
+	nor (d9, x0, x4);
+	buf (d10, x2);
+	or (d11, x1, x2);
+	not (d12, x4);
+	not (d13, x0);
+	not (d14, x1);
+	or (d15, x1, x3);
+	xnor (d16, x0, x2);
+	nand (d17, x4);
+	or (d18, x1, x3);
+	nand (d19, d14, d16);
+	buf (d20, d9);
+	xnor (d21, d1, d15);
+	buf (d22, d5);
+	nor (d23, d13, d15);
+	and (d24, d5, d16);
+	not (d25, d15);
+	nor (d26, d6, d13);
+	assign f1 = d24;
+	assign f2 = d23;
+	assign f3 = d20;
+	assign f4 = d19;
+	assign f5 = d24;
+	assign f6 = d23;
+	assign f7 = d19;
+	assign f8 = d21;
+	assign f9 = d20;
+	assign f10 = d22;
+	assign f11 = d21;
+	assign f12 = d23;
+	assign f13 = d22;
+	assign f14 = d26;
+	assign f15 = d19;
+	assign f16 = d22;
+	assign f17 = d25;
+	assign f18 = d24;
+endmodule
