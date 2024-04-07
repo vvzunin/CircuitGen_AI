@@ -12,6 +12,9 @@ class Data_analyser:
     def __init__(self):
         self.list_names_full_data = []  # Список имен данных, где сгенерированы все файлы
 
+
+
+
     def plt_data_area(self):
         try:
             plt.figure(figsize=(15, 5))
@@ -35,7 +38,6 @@ class Data_analyser:
             plt.show()  # Показать графики
         except BaseException as e:
             print(f"Возможно DF пуст. Эта ошибка произошла в Data_Analysis.plt_data_area\n ошибка: {e}")
-
 
     def create_DF_from_list_labels(self, list_labels):
         row_of_data = [list_labels[i:i+3] for i in range(0, len(list_labels), 3)]

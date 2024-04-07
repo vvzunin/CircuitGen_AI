@@ -13,15 +13,16 @@ class Aig_graph:
     def __init__(self):
         self.nodes = {}  # словарь для хранения узлов и их индексов
         self.edges = []  # список для хранения рёбер
-        self.edge_index = [[], []]
-        self.edge_atr = []
+        self.edge_index = [[], []]  # индекс каждого ребра в формате СОО
+        self.edge_atr = []  # Атрибут ребра, а именно является ли ребро NOT
         self.node_types = {}  # словарь для хранения типов узлов
         self.type_map = {'input': 1, 'output': 2, 'and': 3, 'const': 4}
         self.net_graph = nx.Graph()
         self.adjacency_matrix = None
         self.matrix_size = None
 
-    def parse_aig(self, aig_str):
+    def parse_aig(self, aig_str, dimensions, walk_length, num_walks):
+        print(type(dimensions))
         # Определение регулярных выражений для парсинга AIG
         name = re.compile(r'\bmodule\s+(\w+)')
         input_regex = re.compile(r'input\s+(.*?);')
@@ -86,7 +87,7 @@ class Aig_graph:
                 self.edges.append((var_index, out_index, inverted))
         self.create_adjacency_table()
         self.create_networkx_graph()
-        self.create_node_vectors()
+        self.create_node_vectors(dimensions, walk_length, num_walks)
 
     def create_adjacency_table(self):
         num_nodes = len(self.nodes)
@@ -113,12 +114,18 @@ class Aig_graph:
                 elif self.adjacency_matrix[i][j] == -1:
                     self.net_graph.add_edge(i, j, type='not')
 
-    def create_node_vectors(self):
-        node2vec = Node2Vec(self.net_graph, dimensions=32, walk_length=5, num_walks=5, workers=2)
+    def create_node_vectors(self, dimensions, walk_length, num_walks):
+        print(type(dimensions))
+        node2vec = Node2Vec(self.net_graph,
+                            dimensions=dimensions,
+                            walk_length=walk_length,
+                            num_walks=num_walks,
+                            workers=2)
+
         model = node2vec.fit(window=10, min_count=1, batch_words=4)
         self.node_vectors = model.wv
 
-    def padding(self, max_size):
+    def padding(self, max_size, dimensions=32):
         if self.matrix_size < max_size:
             # Расширяем существующие строки до max_size
             for i in range(self.matrix_size):
@@ -135,7 +142,7 @@ class Aig_graph:
         num_vectors_to_add = max_size - len(existing_keys)
         if num_vectors_to_add > 0:
             # Создаем нулевые векторы
-            zero_vectors = np.zeros((num_vectors_to_add, 32))
+            zero_vectors = np.zeros((num_vectors_to_add, dimensions))
 
             # Добавляем нулевые векторы к существующим
             new_vectors = np.vstack((existing_vectors, zero_vectors))
