@@ -1,56 +1,66 @@
-import torch
-import pandas as pd
-import os
-import glob
-from GCN_model import GCN
 from AIGDataset import AIGDataset
 from Type_data_enum_class import type_for_importer
 from Prediction_analyser import Pred_Analyser
 from custom_runner import Custom_runner
+from Data_Analys import Data_analyser
 
 path_data_6 = '../GCN_AIG/dataset/6'
 path_tests_data = '../GCN_AIG/tests_data'
 path_data_8 = '../GCN_AIG/dataset/8'
+path_data_2 = '../GCN_AIG/dataset/2'
 datasets_aig_path = '../GCN_AIG/datasets_aig'
 
+# TODO Добавить mape в обучение и в критерии для pred_analyser
+# TODO Рисунок архитектуры модели. Квадратики, что откуда и куда следует
+# TODO FLOW диаграммы, процесс работы ПО. Маршрут работы ПО.
+
 if __name__ == '__main__':
-    dimensions = 64
-    walk_length = 25
-    num_walks = 5
-    # dataset = AIGDataset(to_create_path=path_data_6,
-    #                      dimensions=dimensions,
-    #                      walk_length=walk_length,
-    #                      num_walks=num_walks, data_type=type_for_importer.Resyn2)
-    batch_range = range(15, 17)
-    epochs_range = range(14, 15)
-    custom_runner = Custom_runner(batch_range, epochs_range, data_type=type_for_importer.Resyn2)
-    custom_runner.run(load_dataset=2, dimensions=dimensions, walk_length=walk_length, num_walks=num_walks)
+    dim = range(32, 129, 32)
+    length = (10, 20)
+    num = (10, 20)
 
-    pred_analyser = Pred_Analyser()
-    pred_analyser.mse_mae_r2_from_run()
-    print(pred_analyser.min_mse())
-    print(pred_analyser.min_mae())
-    print(pred_analyser.max_r2())
+    for d in dim:
+        for l in length:
+            for n in num:
+                dataset = AIGDataset(to_create_path=path_data_2,
+                                     dimensions=d,
+                                     walk_length=l,
+                                     num_walks=n, data_type=type_for_importer.Balance)
+    # batch_range = range(15, 46, 5)
+    # epochs_range = range(15, 20)
+    # for dim in dimensions:
+    #     for length in walk_length:
+    #         for num in num_walks:
+    #             custom_runner = Custom_runner(batch_range, epochs_range, data_type=type_for_importer.Balance)
+    #             custom_runner.run(load_dataset=1, dimensions=dim, walk_length=length, num_walks=num)
+    # custom_runner = Custom_runner(batch_range=batch_range, epochs_range=epochs_range, data_type=type_for_importer.Balance)
+    # custom_runner.run(load_dataset=1, dimensions=dim, walk_length=length, num_walks=num, test_path='../GCN_AIG/dataset/8')
+    # index = 0
+    # min_mse = 10000.0
+    # best = 9
+    # new = 19
+    # pred_analyser = Pred_Analyser()
+    # pred_analyser.mse_mae_r2_from_run(run_index=best)
+    # pred_analyser.plot_graphs(best, 'MSE')
+    # pred_analyser.mse_mae_r2_from_run(run_index=new)
+    # pred_analyser.plot_graphs(new, "MSE")
 
-    # type = type_for_importer.Resyn2
-    #     # dataset = AIGDataset(to_create_path=path_data_6, type=type)
-    # dataset = AIGDataset(dataset_number=1, type=type)
-    # train_loader, val_loader = dataset.get_data_loaders(batch_size=19)
-    # num_node_features = dataset.get_num_node_features()
-    # model = GCN(num_node_features=num_node_features)
-    # optimizer = torch.optim.Adam(model.parameters(), lr=0.1)
-    # criterion = torch.nn.MSELoss()
-    # model.fit(train_loader, val_loader, optimizer, criterion, 35)
-    # test_loader, labels = dataset.get_test_loaders(path_data_8, type=type)
-    #
-    # preds = model.predict(test_loader)
-    # scaler = dataset.scaler
-    # predictions = scaler.inverse_transform(preds)
-    #
-    # true_label_df = pd.DataFrame(labels, columns=['true'])
-    # predictions_df = pd.DataFrame(predictions, columns=['pred'])
-    # comparison_df = predictions_df.join(true_label_df)
-    # comparison_df.to_csv(os.path.join(f'pred_best_{type.name}.csv'), index=False)
+    # for i in range(2, 3):
+    #     pred_analyser = Pred_Analyser()
+    #     pred_analyser.mse_mae_r2_from_run(run_index=i)
+    #     pred_analyser.plot_graphs(i, 'MAE')
+    #     mse, row = pred_analyser.min_mae(1)
+    #     if min_mse > mse['MAE']:
+    #         min_mse = mse['MAE']
+    #         index = i
+    #         min_row = row
+    # print(f"\n----------------\n")
+    # print(min_mse)
+    # print(index)
+    # pred_analyser = Pred_Analyser()
+    # pred_analyser.mse_mae_r2_from_run(run_index=index)
+    # pred_analyser.plot_graphs(index, 'MAE', plot_print=True)
+
 
 
 

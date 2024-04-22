@@ -30,6 +30,7 @@ class Import_data:
         list_id = self.sorted_alphanumeric(os.listdir(path))
         if clear:
             for id in list_id:
+                print(id)
                 list_name = self.sorted_alphanumeric(os.listdir(path + f'/{id}'))
                 for name in list_name:
                     try:

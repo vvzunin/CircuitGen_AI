@@ -73,5 +73,5 @@ class Custom_runner:
             predictions_df = pd.DataFrame(predictions, columns=['pred'])
             comparison_df = predictions_df.join(true_label_df)
             comparison_df.to_csv(os.path.join(new_run_folder,
-                                 f'pred_BatchSize_{batch_size}_epochs_{epochs}_{self.data_type.name}.csv'),
+                                 f'predD{dimensions}L{walk_length}N{num_walks}_BatchSize_{batch_size}_epochs_{epochs}_{self.data_type.name}.csv'),
                                  index=False)

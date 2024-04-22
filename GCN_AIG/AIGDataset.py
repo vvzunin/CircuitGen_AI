@@ -17,9 +17,9 @@ from joblib import dump, load
 
 class AIGDataset:
     def __init__(self,
-                 dimensions: int,
-                 walk_length: int,
-                 num_walks: int,
+                 dimensions: int = 64,
+                 walk_length: int = 60,
+                 num_walks: int = 10,
                  dataset_number=None,
                  to_create_path=None,
                  data_type=type_for_importer.All,
@@ -31,13 +31,11 @@ class AIGDataset:
         self.scaler = MinMaxScaler()
         self.data_list = []
         self.test_list = []
-        if dataset_number and os.path.isfile(f'../GCN_AIG/datasets_aig/dataset_{data_type.name}_{dataset_number}.pickle'):
-            self.load_dataset(dataset_number, type=data_type)
+
+        if dataset_number and os.path.isfile(f'../GCN_AIG/datasets_aig/dataset_{data_type.name}_DIM_{self.dimensions}_WL_{self.walk_length}_NW_{self.num_walks}_{dataset_number}.pickle'):
+            self.load_dataset(dataset_number, data_type=data_type)
         elif to_create_path:
             self.create_dataset(to_create_path,
-                                dimensions=self.dimensions,
-                                walk_length=self.walk_length,
-                                num_walks=self.num_walks,
                                 data_type=data_type)
             self.save_dataset(data_type=data_type)
         else:
@@ -51,7 +49,7 @@ class AIGDataset:
         self.train_data_list = [self.data_list[i] for i in indices[:train_size]]
         self.val_data_list = [self.data_list[i] for i in indices[train_size:]]
 
-    def create_dataset(self, path, dimensions, walk_length, num_walks, data_type=type_for_importer.All):
+    def create_dataset(self, path, data_type=type_for_importer.All):
 
         importer = Import_data()
         importer.import_generated_data(path, True)
@@ -67,7 +65,6 @@ class AIGDataset:
         list_graphs = []
         for aig_str in list_graph:
             graph = Aig_graph()
-            print(type(dimensions))
             graph.parse_aig(aig_str, dimensions=self.dimensions, walk_length=self.walk_length, num_walks=self.num_walks)
             max_size = max(max_size, graph.matrix_size)
             list_graphs.append(graph)
@@ -82,7 +79,6 @@ class AIGDataset:
 
             # Получение метки для текущего графа
             label = scaled_label_array[index][0]
-            print(label)
             y = torch.tensor([label], dtype=torch.float)
 
             # Создание объекта Data
@@ -90,32 +86,36 @@ class AIGDataset:
             self.data_list.append(data)
         print(self.data_list)
 
-    def load_dataset(self, number, type=type_for_importer.All):
-        datasets_path = '../GCN_AIG/datasets_aig/'
-        dataset_path = datasets_path + f'dataset_{type.name}_{number}.pickle'
-        scaler_path = datasets_path + f'scaler_{type.name}_{number}.joblib'
+    def load_dataset(self, number, data_type=type_for_importer.All):
+        dataset_default_name = f'dataset_{data_type.name}_DIM_{self.dimensions}_WL_{self.walk_length}_NW_{self.num_walks}'
+        scaler_default_name = f'scaler_{data_type.name}_DIM_{self.dimensions}_WL_{self.walk_length}_NW_{self.num_walks}'
+        datasets_path = f'../GCN_AIG/datasets_aig/'
+        dataset_path = datasets_path + f'{dataset_default_name}_{number}.pickle'
+        scaler_path = datasets_path + f'{scaler_default_name}_{number}.joblib'
         self.scaler = load(scaler_path)
         with open(dataset_path, 'rb') as f:
             self.data_list = pickle.load(f)
 
     def save_dataset(self, data_type=type_for_importer.All):
         # Определение директории для сохранения датасетов
-        dataset_dir = '../GCN_AIG/datasets_aig'
+        dataset_dir = f'../GCN_AIG/datasets_aig'
         # Создание директории, если она не существует
         if not os.path.exists(dataset_dir):
             os.makedirs(dataset_dir)
+        dataset_default_name = f'dataset_{data_type.name}_DIM_{self.dimensions}_WL_{self.walk_length}_NW_{self.num_walks}'
+        scaler_default_name = f'scaler_{data_type.name}_DIM_{self.dimensions}_WL_{self.walk_length}_NW_{self.num_walks}'
 
         # Поиск последнего индекса файла в указанной директории
-        existing_files = [f for f in os.listdir(dataset_dir) if f.startswith(f'dataset_{data_type.name}_') and f.endswith('.pickle')]
+        existing_files = [f for f in os.listdir(dataset_dir) if f.startswith(f'{dataset_default_name}_') and f.endswith('.pickle')]
         print(f.split('_')[2].split('.')[0]for f in existing_files)
-        indices = [int(f.split('_')[2].split('.')[0]) for f in existing_files]
+        indices = [int(f.split('_')[-1].split('.')[0]) for f in existing_files]
         print(indices)
         last_index = max(indices) if indices else 0
 
         # Имя следующего файла
         next_index = last_index + 1
-        file_name = f'dataset_{data_type.name}_{next_index}.pickle'
-        scaler_name = f'scaler_{data_type.name}_{next_index}.joblib'
+        file_name = f'{dataset_default_name}_{next_index}.pickle'
+        scaler_name = f'{scaler_default_name}_{next_index}.joblib'
         file_path = os.path.join(dataset_dir, file_name)
         scaler_path = os.path.join(dataset_dir, scaler_name)
 

@@ -22,10 +22,9 @@ class Aig_graph:
         self.matrix_size = None
 
     def parse_aig(self, aig_str, dimensions, walk_length, num_walks):
-        print(type(dimensions))
         # Определение регулярных выражений для парсинга AIG
         name = re.compile(r'\bmodule\s+(\w+)')
-        input_regex = re.compile(r'input\s+(.*?);')
+        input_regex = re.compile(r'input\s+(.*?);', re.DOTALL)
         wire_regex = re.compile(r'wire\s+(.*?);', re.DOTALL)
         const_regex = re.compile(r"1'b[01]")
         output_regax = re.compile(r'output\s+(.*?);', re.DOTALL)
@@ -41,6 +40,7 @@ class Aig_graph:
 
         assignments = assign_regex.findall(aig_str)
 
+        inputs = [input.replace('\n', '') for input in inputs]
         wires = [wire.replace('\n', '') for wire in wires]
         outputs = [output.replace('\n', '') for output in outputs]
 
@@ -115,17 +115,16 @@ class Aig_graph:
                     self.net_graph.add_edge(i, j, type='not')
 
     def create_node_vectors(self, dimensions, walk_length, num_walks):
-        print(type(dimensions))
         node2vec = Node2Vec(self.net_graph,
                             dimensions=dimensions,
                             walk_length=walk_length,
                             num_walks=num_walks,
-                            workers=2)
+                            workers=6)
 
-        model = node2vec.fit(window=10, min_count=1, batch_words=4)
+        model = node2vec.fit(window=5, min_count=1, batch_words=10)
         self.node_vectors = model.wv
 
-    def padding(self, max_size, dimensions=32):
+    def padding(self, max_size, dimensions=128):
         if self.matrix_size < max_size:
             # Расширяем существующие строки до max_size
             for i in range(self.matrix_size):
