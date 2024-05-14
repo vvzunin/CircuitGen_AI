@@ -2,7 +2,7 @@ from node2vec import Node2Vec
 import numpy as np
 import os
 import pandas as pd
-import ast
+import tensorflow as tf
 import networkx as nx
 import json
 import joblib
@@ -235,12 +235,19 @@ def area_calc(data_inp, siz, model_type):
         else:
             models = conf['models2area']
         for m in models:
-            model_area = joblib.load(m)
+            if m.split('.')[-1] == 'h5':
+                model_area = tf.keras.models.load_model(m)
+            else:
+                model_area = joblib.load(m)
             predictions_area.append(model_area.predict(data_inp))
+        return predictions_area
     else:
-        model_area = joblib.load(model_type)
+        if model_type.split('.')[-1] == 'h5':
+            model_area = tf.keras.models.load_model(model_type)
+        else:
+            model_area = joblib.load(model_type)
         predictions_area = model_area.predict(data_inp)
-    return predictions_area
+        return np.ravel(predictions_area)
 
 
 def delay_calc(data_inp, siz, model_type):
@@ -253,12 +260,19 @@ def delay_calc(data_inp, siz, model_type):
         else:
             models = conf['models2delay']
         for m in models:
-            model_delay = joblib.load(m)
+            if m.split('.')[-1] == 'h5':
+                model_delay = tf.keras.models.load_model(m)
+            else:
+                model_delay = joblib.load(m)
             predictions_delay.append(model_delay.predict(data_inp))
+        return predictions_delay
     else:
-        model_delay = joblib.load(model_type)
+        if model_type.split('.')[-1] == 'h5':
+            model_delay = tf.keras.models.load_model(model_type)
+        else:
+            model_delay = joblib.load(model_type)
         predictions_delay = model_delay.predict(data_inp)
-    return predictions_delay
+        return np.ravel(predictions_delay)
 
 
 result = pd.DataFrame()
