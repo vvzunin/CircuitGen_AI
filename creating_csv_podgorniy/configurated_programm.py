@@ -163,7 +163,7 @@ def grapher(in_n, out_n, nodes, edges):
     return G
 
 
-def main(path):
+def par_gra(path):
     in_n, out_n, nodes, edges = parser(path)  # файл на verilog нужно подгрузить в коллаб
     G = grapher(in_n, out_n, nodes, edges)
     return (G)
@@ -178,7 +178,7 @@ tensor = []
 c = conf['path']
 if os.path.isfile(c) and os.path.getsize(c) != 0:
     matr = []
-    graph = main(c)
+    graph = par_gra(c)
     node2vec = Node2Vec(graph, dimensions=25, walk_length=3, num_walks=20, workers=4)
     model = node2vec.fit(window=4, min_count=1, batch_words=4)
     for j in range(len(model.wv)):
